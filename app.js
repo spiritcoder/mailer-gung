@@ -7,6 +7,8 @@ const authRoute = require("./routes/Authentication/authApi.js");
 
 const app = express();
 app.use(bodyParser.json());
+
+
 app.use("/user", userRoute);
 app.use(authRoute);
 
