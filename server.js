@@ -1,21 +1,33 @@
-const express = require("express");
+const app = require('./app');
+const dotenv = require('dotenv');
+const db = require('./db/mongodb/Database.js');
+const server = require('http').createServer(app);
+dotenv.config();
 
-//require those routes which I created seperately
-const userRoute = require("./routes/UserRoute.js");
-
-const routeNotFoundErrorHandler = require("./middlewares/RouteNotFoundErrorHandler");
-
-
-const app = express();
-app.use("/user", userRoute);
-
-app.get("/chat", function (req, res) {
-	res.sendFile(__dirname + "/chatDemo.html");
+process.on('uncaughtException', err => {
+    console.log(err.name, err.message);
+    console.log('UNCAUGHT EXCEPTION! Shutting down...');
+    process.exit(1);
 });
 
-//404 route not found error
-app.all("*", routeNotFoundErrorHandler);
+//Now listen to this port
+server.listen(process.env.PORT);
 
-//you can still listen to the server here
-//export route for unit testing and chat
-module.exports = app;
+server.on('error', (err) => {
+    console.error(err);
+});
+
+server.on('listening', async () => {
+
+    console.info(`CribMD is Listening to port ${process.env.PORT}`);
+    db.connectionDB()
+
+});
+
+process.on('unhandledRejection', err => {
+    console.log(err.name, err.message);
+    console.log('UNHANDLED REJECTION! Shutting down...');
+    server.close(() => {
+        process.exit(1);
+    })
+});
