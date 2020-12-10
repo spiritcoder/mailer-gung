@@ -5,43 +5,53 @@ const mongoose = require('mongoose');
 class Dao{
 
     async create(model, data){
-        return model.create(data);
+        const ModelClass = require(`./mongoose_models/${model}`);
+        return ModelClass.create(data);
     }
 
     async findOneById(model,id){
-        return model.findById(id);
+        const ModelClass = require(`./mongoose_models/${model}`);
+        return ModelClass.findById(id);
     }
 
     async findOne(model,query){
-        return model.findOne(query);
+        const ModelClass = require(`./mongoose_models/${model}`);
+        return ModelClass.findOne(query);
     }
 
     async queryOne(model, query){
-        return model.findOne(query);
+        const ModelClass = require(`./mongoose_models/${model}`);
+        return ModelClass.findOne(query);
     }
 
     async updateOne(model, id, update){
-        return model.findByIdAndUpdate(id, update);
+        const ModelClass = require(`./mongoose_models/${model}`);
+        return ModelClass.findByIdAndUpdate(id, update);
     }
 
     async updateQuery(model, id, query){
-        return model.update({_id:id},{$set:query},{multi:true,new:true});
+        const ModelClass = require(`./mongoose_models/${model}`);
+        return ModelClass.update({_id:id},{$set:query},{multi:true,new:true});
     }
 
     async queryMore(model, query){
-        return model.find(query);
+        const ModelClass = require(`./mongoose_models/${model}`);
+        return ModelClass.find(query);
     }
 
     async deleteOne(model, query){
-        return model.remove(query);
+        const ModelClass = require(`./mongoose_models/${model}`);
+        return ModelClass.remove(query);
     }
 
     async deleteById(model, id){
-        return model.remove({_id:id});
+        const ModelClass = require(`./mongoose_models/${model}`);
+        return ModelClass.remove({_id:id});
     }
 
     async countQuery(model, query){
-        return model.countDocuments(query);
+        const ModelClass = require(`./mongoose_models/${model}`);
+        return ModelClass.countDocuments(query);
     }
 }
 

@@ -1,7 +1,8 @@
 const dao = require('../../db/mongodb/dao')
-const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const hasher = require('../../utils/helpers/hasher')
 const dotenv = require('dotenv');
+const {createResponse} = require('../../utils/createResponse')
 dotenv.config();
 
 const JWT_SECRET = process.env.JWT_SECRET;
@@ -10,37 +11,64 @@ class Auth {
 
     async signup(req, res, error) {
         const {fullname,email,password} = req.body
+
         if(!fullname || !email || !password){
-            return res.status(422).json({err: "please add all the fields"})
+
+            return createResponse(res,400,"please add all the fields");
+
         }
-        const foundEmail = dao.findOne("User", {email:email})
-        console.log(foundEmail);
+
+        const foundEmail = await dao.findOne("User", {email:email})
+
+        if(foundEmail ==null){
+
+            const hashedPassword = hasher.hashKey(password);
+            const savedUser = await dao.create("User", {fullname, email, password:hashedPassword});
+            savedUser.password = null;
+            if(savedUser._id != null){
+
+                return createResponse(res, 200, "Saved user", savedUser);
+
+            }else{
+
+                return createResponse(res,400,"An error occured creating the user");
+
+            }
+        }else{
+
+            return createResponse(res,400,"A user with the email already exists");
+
+        }
     }
     
-    // async signin(req, res, error){
-    //     const {email,password} = req.body
-    //     if(!email || !password) {
-    //         return res.status(422).json({error: "Please provide the email and password"})
-    //     }
-    //     User.findOne({email: email})
-    //     .then(savedUser => {
-    //         if(!savedUser){
-    //             return res.status(422).json({error: "Invalid email or password"})
-    //         }
-    //         bcrypt.compare(password, savedUser.password)
-    //         .then(doMatch => {
-    //             if(doMatch){
-    //                 // return res.json({message: "successfully signed in"})
-    //                 const token = jwt.sign({_id:savedUser._id}, JWT_SECRET)
-    //                 res.json({token})
-    //             }
-    //             return res.status(422).json({error: "Invalid email or password"})
-    //         })
-    //         .catch(err => {
-    //             console.log(err)
-    //         })
-    //     })
-    // }
+    
+    async signin(req, res, error){
+        const {email,password} = req.body
+        if(!email || !password) {
+            return res.status(422).json({error: "Please provide the email and password"})
+        }
+
+        const foundUser = await dao.findOne("User", {email:email})
+        if(foundUser == null){
+
+            return createResponse(res,400,"email or password is incorrect");
+
+        }else{
+
+            const passwordCompare = hasher.compareKey(password,foundUser.password)
+
+            if(passwordCompare == true){
+
+                const token = jwt.sign({_id:foundUser._id}, JWT_SECRET)
+                return createResponse(res, 200, "token", token);
+
+            }else{
+
+                return createResponse(res,400,"email or password is incorrect");
+
+            }
+        }
+    }
 }
 
 module.exports = new Auth();

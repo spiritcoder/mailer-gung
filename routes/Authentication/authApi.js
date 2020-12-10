@@ -5,7 +5,7 @@ const authController = require('../../Controllers/Authentication/auth')
 
 
 router.post('/register',authController.signup)
-// router.post('/signin',authController.signin)
+router.post('/signin',authController.signin)
 
 
 
