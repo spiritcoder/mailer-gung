@@ -1,6 +1,7 @@
 const dao = require('../../db/mongodb/dao')
 const jwt = require('jsonwebtoken')
 const hasher = require('../../utils/helpers/hasher')
+const {emailValidator, stringValidator} = require('../../utils/helpers/validator')
 const dotenv = require('dotenv');
 const {createResponse} = require('../../utils/createResponse')
 dotenv.config();
@@ -16,6 +17,14 @@ class Auth {
 
             return createResponse(res,400,"please add all the fields");
 
+        }
+
+        if(!emailValidator(email)){
+            return createResponse(res,400,"please provide a valid email address");
+        }
+
+        if(!stringValidator(fullname)){
+            return createResponse(res, 400, "Full name should be a string with more than one character in length")
         }
 
         const foundEmail = await dao.findOne("User", {email:email})
