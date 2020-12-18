@@ -31,7 +31,7 @@ class Dao{
 
     async updateQuery(model, id, query){
         const ModelClass = require(`./mongoose_models/${model}`);
-        return ModelClass.update({_id:id},{$set:query},{multi:true,new:true});
+        return ModelClass.updateMany({_id:id},{$set:query},{multi:true,new:true});
     }
 
     async queryMore(model, query){
