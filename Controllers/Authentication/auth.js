@@ -6,6 +6,8 @@ const dotenv = require('dotenv');
 const {createResponse} = require('../../utils/createResponse')
 dotenv.config();
 
+const UserModel = "User";
+
 const JWT_SECRET = process.env.JWT_SECRET;
 
 class Auth {
@@ -27,12 +29,12 @@ class Auth {
             return createResponse(res, 400, "Full name should be a string with more than one character in length")
         }
 
-        const foundEmail = await dao.findOne("User", {email:email})
+        const foundEmail = await dao.findOne(UserModel, {email:email})
 
         if(foundEmail ==null){
 
             const hashedPassword = hasher.hashKey(password);
-            const savedUser = await dao.create("User", {fullname, email, password:hashedPassword});
+            const savedUser = await dao.create(UserModel, {fullname, email, password:hashedPassword});
             savedUser.password = null;
             if(savedUser._id != null){
 
@@ -57,7 +59,7 @@ class Auth {
             return res.status(422).json({error: "Please provide the email and password"})
         }
 
-        const foundUser = await dao.findOne("User", {email:email})
+        const foundUser = await dao.findOne(UserModel, {email:email})
         if(foundUser == null){
 
             return createResponse(res,400,"email or password is incorrect");

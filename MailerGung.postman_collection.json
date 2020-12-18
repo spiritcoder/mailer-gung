@@ -1,0 +1,220 @@
+{
+	"variables": [],
+	"info": {
+		"name": "MailerGung",
+		"_postman_id": "c529ecf4-6a81-3982-b175-cd7ff607b75d",
+		"description": "Mailer gung apis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Auth",
+			"description": "",
+			"item": [
+				{
+					"name": "Sign In",
+					"request": {
+						"url": "http://localhost:5000/signin",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"email\": \"ikechukwuapeh@gmail.com\",\n\t\"password\": \"loremipsum\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"url": "http://localhost:5000/register",
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"description": ""
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"fullname\": \"Ikechukwu Apeh\",\n\t\"email\": \"ikechukwuapeh@gmail.com\",\n\t\"password\": \"loremipsum\"\n}"
+						},
+						"description": ""
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin",
+			"description": "",
+			"item": [
+				{
+					"name": "Mail Plan Management",
+					"description": "",
+					"item": [
+						{
+							"name": "Create Mail Plan",
+							"request": {
+								"url": "http://localhost:5000/admin/create-mail-plan",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"planName\": \"Basic Mail Plan\",\n\t\"features\": \"[single email, less support, 1000 emails per month]\",\n\t\"numberOfMailsPerMonth\": 1000,\n\t\"durationInMonths\": 2,\n\t\"price\": 10.30,\n\t\"oldPrice\": 20.30,\n\t\"description\": \"Basic mail plan for marketers with few mail lists\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Get All Mail Plans",
+							"request": {
+								"url": "http://localhost:5000/admin/get-all-mail-plans",
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Get A Mail Plan",
+							"request": {
+								"url": "http://localhost:5000/admin/get-a-mail-plan/5fdb668cff94a3201895cea9",
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Update Mail Plan",
+							"request": {
+								"url": "http://localhost:5000/admin/update-mail-plan",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"_id\": \"5fdb668cff94a3201895cea9\",\n\t\"features\": \"[single email, less support, 1000 emails per monther]\",\n\t\"numberOfMailsPerMonth\": 1000,\n\t\"durationInMonths\": 2,\n\t\"price\": 10.30,\n\t\"oldPrice\": 20.30,\n\t\"description\": \"Basic mail plan for marketers with few mail forms \"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Disable Mail Plan",
+							"request": {
+								"url": "http://localhost:5000/admin/disable-a-mail-plan/5fdb668cff94a3201895cea9",
+								"method": "DELETE",
+								"header": [],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "User Management",
+					"description": "",
+					"item": [
+						{
+							"name": "Get All Users",
+							"request": {
+								"url": "http://localhost:5000/admin/get-all-users",
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Get A User",
+							"request": {
+								"url": "http://localhost:5000/admin/get-a-user/5fd28ad628b8a43148c975a1",
+								"method": "GET",
+								"header": [],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Disable A User",
+							"request": {
+								"url": "http://localhost:5000/admin/disable-a-user/5fd28ad628b8a43148c975a1",
+								"method": "DELETE",
+								"header": [],
+								"body": {},
+								"description": ""
+							},
+							"response": []
+						},
+						{
+							"name": "Upgrade A User",
+							"request": {
+								"url": "http://localhost:5000/admin/upgrade-a-user",
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"description": ""
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"_id\": \"5fd28ad628b8a43148c975a1\",\n\t\"userType\": \"admin\"\n}"
+								},
+								"description": ""
+							},
+							"response": []
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			]
+		},
+		{
+			"name": "testToken",
+			"request": {
+				"url": "http://localhost:5000/user/dashboard",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI1ZmQyOGFkNjI4YjhhNDMxNDhjOTc1YTEiLCJpYXQiOjE2MDc2MzM2Mjl9.RAs5JotDtiAY4DMlugBxLA8-Q9zVCXXQ2JgGQySmr_8",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
